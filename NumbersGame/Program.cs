@@ -1,5 +1,5 @@
 ﻿using System;
-// Carl Fransson Systemutvecklare .NET med AI kompetens
+// Carl Fransson .NET23
 namespace NumbersGame
 
 {
