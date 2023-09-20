@@ -14,8 +14,20 @@ namespace NumbersGame
             {
                     Console.WriteLine("Vänligen välj svårhetsgraden du vill spela! \nFör att välja svårhetsgrad lätt, vänligen tryck 1.\nOm du vill välja medium, vänligen tryck 2\nEller om ni vill " +
                         "spela på svår, tryck då 3.\nOm ni vill avsluta spelet tryck då 0");
-              
-                    game = Convert.ToInt32(Console.ReadLine()); // Omvandlar texten till en heltalsvariabel 
+                while (true)
+                {
+                    string convertString = Console.ReadLine(); // Lagrar användarens input i variabeln convertString
+                    if (int.TryParse(convertString, out game)) // Om användaren försöker skriva något annat än ett heltal
+                    {
+                        break; // Loopen avslutas om användaren skriver in ett heltal
+                    }
+                    else // Om användaren skriver något annat än ett heltal skrivs det ut i consolen
+                    {
+                        Console.WriteLine("Vänligen välj bland alternativen");
+                    }
+
+
+                }
 
                 switch (game) // Switch-satsen för de olika alternativen användaren får. Beroende på vilket alternativ användaren väljer körs de olika metoderna
                     {
@@ -30,17 +42,15 @@ namespace NumbersGame
                         case 3:
                             GuessNumberHard();
                             break;
-                    default:
-                        Console.WriteLine("Vänligen välj bland alternativen");
-                        break;
                     }
+                if (game == 0) // Om användaren skriver 0
+                {
+                    Console.WriteLine("Tack för att du spelade. Välkommen åter");
+                }
 
-                    if (game == 0) // Om användaren skriver "0" så skrivs texten ut
-                    {
-                        Console.WriteLine("Tack för att du spelade. Välkommen åter");
-                    }
 
-                } while (game != 0); // Loopen körs så länge användaren inte skriver "0" 
+
+            } while (game != 0); // Loopen körs så länge användaren inte skriver "0" 
                 Console.WriteLine("Tryck på valfri tagnentknapp för att avsluta");
                 Console.ReadKey();
 
@@ -59,35 +69,43 @@ namespace NumbersGame
             bool guessCorrectly = false;
             while (attempts != maxAttempts) // Loopen körs så länge antal försök inte uppnår max antal försök
             {
-                number = Convert.ToInt32(Console.ReadLine()); // Omvandlar texten till en heltalsvariabel
-                attempts++; // Antalet försök ökar med 1 för varje försök
+                string input = Console.ReadLine();
+                if (int.TryParse(input, out number)) // Försöker konvertera inmatningen till ett heltal
+                {
 
-                if (number == randomGen) // Om användaren gissar rätt på slumptalet
-                {
-                    Console.WriteLine("Grattis! Du lyckades träffa rätt på siffran! den rätta siffran var {0} och du lyckades på {1} försök!", randomGen, attempts);
-                    break; // Avslutar loopen
-                }
-                else if (Math.Abs(number - randomGen) <= 2 && number < randomGen) // Vi beräknar ut absolutvärdet av skillnaden mellan användarens tal och det slumpade talet
-                                                                                  // Om användaren är två siffror ifrån och dom är lägre än det slumpade talet 
-                {
-                    Console.WriteLine("nu är du nära! Men du gissade för lågt..");
-                }
-                else if (Math.Abs(number - randomGen) <= 2 && number > randomGen) // Om användaren är två siffror ifrån och dom är högre än det slumpade talet
-                {
-                    Console.WriteLine("nu är du nära! Men du gissade för högt..");
-                }
-                else if (number < randomGen) // Om användarens gissing är lägre än det slumpade talet
-                {
-                    ToLowText(); // Anropar metoden som skriver ut att talet är lägre än det slumpade talet
-                }
-                else if (number > randomGen) // Om användarens gissing är högre än det slumpade talet
-                {
-                    ToHighText(); // Anropar metoden som skriver ut att talet är högre än det slumpade talet
-                }
+                    attempts++; // Antalet försök ökar med 1 för varje försök
 
-                else if (attempts == maxAttempts) // Om användaren har gissat för många gånger
+                    if (number == randomGen) // Om användaren gissar rätt på slumptalet
+                    {
+                        Console.WriteLine("Grattis! Du lyckades träffa rätt på siffran! den rätta siffran var {0} och du lyckades på {1} försök!", randomGen, attempts);
+                        break; // Avslutar loopen
+                    }
+                    else if (Math.Abs(number - randomGen) <= 2 && number < randomGen) // Vi beräknar ut absolutvärdet av skillnaden mellan användarens tal och det slumpade talet
+                                                                                      // Om användaren är två siffror ifrån och dom är lägre än det slumpade talet 
+                    {
+                        Console.WriteLine("nu är du nära! Men du gissade för lågt..");
+                    }
+                    else if (Math.Abs(number - randomGen) <= 2 && number > randomGen) // Om användaren är två siffror ifrån och dom är högre än det slumpade talet
+                    {
+                        Console.WriteLine("nu är du nära! Men du gissade för högt..");
+                    }
+                    else if (number < randomGen) // Om användarens gissing är lägre än det slumpade talet
+                    {
+                        ToLowText(); // Anropar metoden som skriver ut att talet är lägre än det slumpade talet
+                    }
+                    else if (number > randomGen) // Om användarens gissing är högre än det slumpade talet
+                    {
+                        ToHighText(); // Anropar metoden som skriver ut att talet är högre än det slumpade talet
+                    }
+
+                    else if (attempts == maxAttempts) // Om användaren har gissat för många gånger
+                    {
+                        Console.WriteLine("Tyvärr så lyckades du inte denna gång. Talet vi sökte var {0}.", randomGen);
+                    }
+                }
+                else
                 {
-                    Console.WriteLine("Tyvärr så lyckades du inte denna gång. Talet vi sökte var {0}.", randomGen);
+                    Console.WriteLine("Vänligen skriv in ett giltigt heltal.");
                 }
                 if (!guessCorrectly && attempts == maxAttempts) // Om bool variabeln inte är sann och antal försök är lika med max antal försök
                 {
@@ -113,38 +131,47 @@ namespace NumbersGame
             bool guessCorrectly = false;
             while (attempts < maxAttempts)
             {
-                number = Convert.ToInt32(Console.ReadLine());
-                attempts++;
+                string input = Console.ReadLine();
+                if (int.TryParse(input, out number)) // Försöker konvertera inmatningen till ett heltal
+                {
 
-                if (number == randomGen)
-                {
-                    Console.WriteLine("Grattis! Du lyckades träffa rätt på siffran! den rätta siffran var {0} och du lyckades på {1} försök!", randomGen, attempts);
-                    break;
-                }
-                else if (Math.Abs(number - randomGen) <= 5 && number < randomGen)
-                {
-                    Console.WriteLine("nu är du nära! Men du gissade för lågt..");
-                }
-                else if (Math.Abs(number - randomGen) <= 5 && number > randomGen)
-                {   
-                    Console.WriteLine("nu är du nära! Men du gissade för högt..");
-                }
-                else if (number < randomGen)
-                {
-                    ToLowText();
-                }
-                else if (number > randomGen)
-                {
-                    ToHighText();
-                }
+                    attempts++; // Antalet försök ökar med 1 för varje försök
 
-                else if (attempts == maxAttempts) 
-                {
-                    Console.WriteLine("Tyvärr så lyckades du inte denna gång. Talet vi sökte var {0}.", randomGen);
+                    if (number == randomGen) // Om användaren gissar rätt på slumptalet
+                    {
+                        Console.WriteLine("Grattis! Du lyckades träffa rätt på siffran! den rätta siffran var {0} och du lyckades på {1} försök!", randomGen, attempts);
+                        break; // Avslutar loopen
+                    }
+                    else if (Math.Abs(number - randomGen) <= 5 && number < randomGen) // Vi beräknar ut absolutvärdet av skillnaden mellan användarens tal och det slumpade talet
+                                                                                      // Om användaren är 5 siffror ifrån och dom är lägre än det slumpade talet 
+                    {
+                        Console.WriteLine("nu är du nära! Men du gissade för lågt..");
+                    }
+                    else if (Math.Abs(number - randomGen) <= 5 && number > randomGen) // Om användaren är 5 siffror ifrån och dom är högre än det slumpade talet
+                    {
+                        Console.WriteLine("nu är du nära! Men du gissade för högt..");
+                    }
+                    else if (number < randomGen) // Om användarens gissing är lägre än det slumpade talet
+                    {
+                        ToLowText(); // Anropar metoden som skriver ut att talet är lägre än det slumpade talet
+                    }
+                    else if (number > randomGen) // Om användarens gissing är högre än det slumpade talet
+                    {
+                        ToHighText(); // Anropar metoden som skriver ut att talet är högre än det slumpade talet
+                    }
+
+                    else if (attempts == maxAttempts) // Om användaren har gissat för många gånger
+                    {
+                        Console.WriteLine("Tyvärr så lyckades du inte denna gång. Talet vi sökte var {0}.", randomGen);
+                    }
                 }
-                if (!guessCorrectly && attempts == maxAttempts) 
+                else
                 {
-                    Console.WriteLine("Tyvärr så lyckades du inte denna gång. Talet vi sökte var {0}.", randomGen);
+                    Console.WriteLine("Vänligen skriv in ett giltigt heltal.");
+                }
+                if (!guessCorrectly && attempts == maxAttempts) // Om bool variabeln inte är sann och antal försök är lika med max antal försök
+                {
+                    Console.WriteLine("Tyvärr så lyckades du inte denna gång. Talet vi sökte var {0}.", randomGen); // Skriver ut vilket tal som var det slumpade talet
                 }
             }
 
@@ -166,38 +193,47 @@ namespace NumbersGame
             bool guessCorrectly = false;
             while (attempts < maxAttempts)
             {
-                number = Convert.ToInt32(Console.ReadLine());
-                attempts++;
+                string input = Console.ReadLine();
+                if (int.TryParse(input, out number)) // Försöker konvertera inmatningen till ett heltal
+                {
 
-                if (number == randomGen)
-                {
-                    Console.WriteLine("Grattis! Du lyckades träffa rätt på siffran! den rätta siffran var {0} och du lyckades på {1} försök!", randomGen, attempts);
-                    break;
-                }
-                else if (Math.Abs(number - randomGen) <= 10 && number < randomGen)
-                {
-                    Console.WriteLine("nu är du nära! Men du gissade för lågt..");
-                }
-                else if (Math.Abs(number - randomGen) <= 10 && number > randomGen)
-                {
-                    Console.WriteLine("nu är du nära! Men du gissade för högt..");
-                }
-                else if (number < randomGen)
-                {
-                    ToLowText();
-                }
-                else if (number > randomGen)
-                {
-                    ToHighText();
-                }
+                    attempts++; // Antalet försök ökar med 1 för varje försök
 
-                else if (attempts == maxAttempts) 
-                {
-                    Console.WriteLine("Tyvärr så lyckades du inte denna gång. Talet vi sökte var {0}.", randomGen);
+                    if (number == randomGen) // Om användaren gissar rätt på slumptalet
+                    {
+                        Console.WriteLine("Grattis! Du lyckades träffa rätt på siffran! den rätta siffran var {0} och du lyckades på {1} försök!", randomGen, attempts);
+                        break; // Avslutar loopen
+                    }
+                    else if (Math.Abs(number - randomGen) <= 10 && number < randomGen) // Vi beräknar ut absolutvärdet av skillnaden mellan användarens tal och det slumpade talet
+                                                                                      // Om användaren är 10 siffror ifrån och dom är lägre än det slumpade talet 
+                    {
+                        Console.WriteLine("nu är du nära! Men du gissade för lågt..");
+                    }
+                    else if (Math.Abs(number - randomGen) <= 10 && number > randomGen) // Om användaren är 10 siffror ifrån och dom är högre än det slumpade talet
+                    {
+                        Console.WriteLine("nu är du nära! Men du gissade för högt..");
+                    }
+                    else if (number < randomGen) // Om användarens gissing är lägre än det slumpade talet
+                    {
+                        ToLowText(); // Anropar metoden som skriver ut att talet är lägre än det slumpade talet
+                    }
+                    else if (number > randomGen) // Om användarens gissing är högre än det slumpade talet
+                    {
+                        ToHighText(); // Anropar metoden som skriver ut att talet är högre än det slumpade talet
+                    }
+
+                    else if (attempts == maxAttempts) // Om användaren har gissat för många gånger
+                    {
+                        Console.WriteLine("Tyvärr så lyckades du inte denna gång. Talet vi sökte var {0}.", randomGen);
+                    }
                 }
-                if (!guessCorrectly && attempts == maxAttempts)
+                else
                 {
-                    Console.WriteLine("Tyvärr så lyckades du inte denna gång. Talet vi sökte var {0}.", randomGen);
+                    Console.WriteLine("Vänligen skriv in ett giltigt heltal.");
+                }
+                if (!guessCorrectly && attempts == maxAttempts) // Om bool variabeln inte är sann och antal försök är lika med max antal försök
+                {
+                    Console.WriteLine("Tyvärr så lyckades du inte denna gång. Talet vi sökte var {0}.", randomGen); // Skriver ut vilket tal som var det slumpade talet
                 }
             }
 
@@ -210,7 +246,20 @@ namespace NumbersGame
             do // Koden som ska köras i loopen
             {
                 Console.WriteLine("Vill du försöka igen? tryck 1 för att starta om spelet. \nEller tryck 0 för att avsluta spelet");
-                again = Convert.ToInt32(Console.ReadLine()); // Omvandlar texten till en heltalsvariabel 
+                while (true)
+                {
+                    string convertString = Console.ReadLine();
+                    if (int.TryParse(convertString, out again))
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("Vänligen välj bland alternativen");
+                    }
+
+
+                }
                 switch (again) // Switch-sats som kollar om användaren vill spela igen.
                 {
                     case 1: // Om användaren skriver "1" så går användren tillbaka till huvudmenyn
